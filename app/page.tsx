@@ -1,15 +1,14 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
 import { animate, createScope, spring, createDraggable } from 'animejs'
-// import reactLogo from './assets/react.svg';
 
-import ClippyWrapper from './components/clippy-wrapper'
+// import ClippyWrapper from './components/clippy-wrapper'
 
 import './globals.scss'
 
 export default function Home() {
   const root = useRef(null)
-  const scope = useRef(null)
+  const scope = useRef<ReturnType<typeof createScope> | null>(null)
   const [rotations, setRotations] = useState(0)
 
   useEffect(() => {
@@ -43,14 +42,14 @@ export default function Home() {
     })
 
     // Properly cleanup all anime.js instances declared inside the scope
-    return () => scope.current.revert()
+    return () => scope.current?.revert()
   }, [])
 
   const handleClick = () => {
     setRotations((prev) => {
       const newRotations = prev + 1
       // Animate logo rotation on click using the method declared inside the scope
-      scope.current.methods.rotateLogo(newRotations)
+      scope.current?.methods.rotateLogo(newRotations)
       return newRotations
     })
   }
